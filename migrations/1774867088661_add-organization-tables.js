@@ -37,6 +37,8 @@ export const up = (pgm) => {
     },
     period: { type: "VARCHAR(9)", notNull: true },
     image_url: { type: "TEXT" },
+    instagram_url: { type: "VARCHAR(255)" },
+    linkedin_url: { type: "VARCHAR(255)" },
     is_active: { type: "BOOLEAN", default: true },
     created_at: {
       type: "TIMESTAMP",
