@@ -40,6 +40,7 @@ export const up = (pgm) => {
     content: { type: "TEXT", notNull: true },
     category: { type: "VARCHAR(50)", notNull: true },
     thumbnail_url: { type: "TEXT" },
+    is_published: { type: "BOOLEAN", default: false },
     created_at: {
       type: "TIMESTAMP",
       notNull: true,

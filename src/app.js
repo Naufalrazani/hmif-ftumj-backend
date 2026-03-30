@@ -2,6 +2,7 @@ import express, { json } from "express";
 import cors from "cors";
 import { query } from "./config/db.js";
 import activityRoutes from "./routes/activityRoutes.js";
+import articleRoutes from "./routes/articleRoutes.js";
 
 const app = express();
 
@@ -9,6 +10,8 @@ app.use(cors());
 app.use(json());
 
 app.use("/api/activities", activityRoutes);
+
+app.use("/api/articles", articleRoutes);
 
 app.get("/test-connection", async (req, res) => {
   try {
