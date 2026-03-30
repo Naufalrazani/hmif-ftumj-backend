@@ -1,14 +1,18 @@
-const express = require("express");
-const cors = require("cors");
-const db = require("./config/db");
+import express, { json } from "express";
+import cors from "cors";
+import { query } from "./config/db.js";
+import activityRoutes from "./routes/activityRoutes.js";
+
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(json());
+
+app.use("/api/activities", activityRoutes);
 
 app.get("/test-connection", async (req, res) => {
   try {
-    const result = await db.query("SELECT NOW()");
+    const result = await query("SELECT NOW()");
     res.status(200).json({
       status: "success",
       message: "Koneksi database aman!",
@@ -23,4 +27,4 @@ app.get("/test-connection", async (req, res) => {
   }
 });
 
-module.exports = app;
+export default app;
