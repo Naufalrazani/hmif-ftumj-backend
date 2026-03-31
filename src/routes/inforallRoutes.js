@@ -1,4 +1,5 @@
 import express from "express";
+import { protect } from "../middlewares/authMiddleware.js";
 import {
   getAllInfo,
   createInfo,
@@ -8,8 +9,8 @@ import {
 
 const router = express.Router();
 
-router.route("/").get(getAllInfo).post(createInfo);
+router.route("/").get(getAllInfo).post(protect, createInfo);
 
-router.route("/:id").put(updateInfo).delete(deleteInfo);
+router.route("/:id").put(protect, updateInfo).delete(protect, deleteInfo);
 
 export default router;
