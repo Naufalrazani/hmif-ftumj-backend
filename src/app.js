@@ -5,6 +5,7 @@ import activityRoutes from "./routes/activityRoutes.js";
 import articleRoutes from "./routes/articleRoutes.js";
 import inforallRoutes from "./routes/inforallRoutes.js";
 import orgRoutes from "./routes/orgRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use("/api/articles", articleRoutes);
 app.use("/api/informationall", inforallRoutes);
 
 app.use("/api/org", orgRoutes);
+
+app.use("/api/auth", authRoutes);
 
 app.get("/test-connection", async (req, res) => {
   try {
