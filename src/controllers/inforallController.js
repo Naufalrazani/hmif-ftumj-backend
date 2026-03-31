@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { sendNotification } from "../config/mail.js";
 
 // @desc    Ambil semua informasi
 // @route   GET /api/informationall
@@ -39,7 +40,22 @@ export const createInfo = async (req, res) => {
     ];
 
     const result = await pool.query(query, values);
-    res.status(201).json({ status: "success", data: result.rows[0] });
+    const newInfo = result.rows[0];
+
+    const subscribers = await pool.query(
+      "SELECT email FROM subscribers WHERE is_active = true",
+    );
+
+    subscribers.rows.forEach((sub) => {
+      sendNotification(
+        sub.email,
+        `Info Baru: ${newInfo.title}`,
+        `Ada informasi baru mengenai ${newInfo.type}. Cek di website HMIF!`,
+        `<h1>${newInfo.title}</h1><p>${newInfo.description}</p><a href="${newInfo.link_registration}">Daftar Sekarang</a>`,
+      );
+    });
+
+    res.status(201).json({ status: "success", data: newInfo });
   } catch (err) {
     res.status(500).json({ status: "error", message: err.message });
   }
