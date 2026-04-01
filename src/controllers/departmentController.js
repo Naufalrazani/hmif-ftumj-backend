@@ -14,11 +14,11 @@ export const getAllDepartments = async (req, res) => {
 
 // @desc    Tambah departemen baru
 export const createDepartment = async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description, image_url } = req.body;
   try {
     const result = await pool.query(
-      "INSERT INTO departments (name, description) VALUES ($1, $2) RETURNING *",
-      [name, description],
+      "INSERT INTO departments (name, description, image_url) VALUES ($1, $2, $3) RETURNING *",
+      [name, description, image_url],
     );
     res.status(201).json({ status: "success", data: result.rows[0] });
   } catch (err) {
@@ -29,11 +29,12 @@ export const createDepartment = async (req, res) => {
 // @desc    Update Departemen
 export const updateDepartment = async (req, res) => {
   const { id } = req.params;
-  const { name, description } = req.body;
+  const { name, description, image_url } = req.body;
+
   try {
     const result = await pool.query(
-      "UPDATE departments SET name = COALESCE($1, name), description = COALESCE($2, description) WHERE id = $3 RETURNING *",
-      [name, description, id],
+      "UPDATE departments SET name = COALESCE($1, name), description = COALESCE($2, description), image_url = COALESCE($3, image_url) WHERE id = $4 RETURNING *",
+      [name, description, image_url, id],
     );
     if (result.rows.length === 0)
       return res

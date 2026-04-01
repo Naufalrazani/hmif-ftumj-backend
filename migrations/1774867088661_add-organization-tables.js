@@ -13,8 +13,9 @@ export const up = (pgm) => {
 
   pgm.createTable("departments", {
     id: "id",
-    name: { type: "VARCHAR(100)", notNull: true },
+    name: { type: "VARCHAR(50)", notNull: true },
     description: { type: "TEXT" },
+    image_url: { type: "TEXT" },
     created_at: {
       type: "TIMESTAMP",
       notNull: true,
@@ -28,8 +29,9 @@ export const up = (pgm) => {
       primaryKey: true,
       default: pgm.func("uuid_generate_v4()"),
     },
-    name: { type: "VARCHAR(150)", notNull: true },
-    role: { type: "VARCHAR(100)", notNull: true },
+    name: { type: "VARCHAR(50)", notNull: true },
+    npm: { type: "VARCHAR(25)", notNull: true },
+    role: { type: "VARCHAR(25)", notNull: true },
     department_id: {
       type: "INTEGER",
       references: '"departments"',
@@ -37,8 +39,8 @@ export const up = (pgm) => {
     },
     period: { type: "VARCHAR(9)", notNull: true },
     image_url: { type: "TEXT" },
-    instagram_url: { type: "VARCHAR(255)" },
-    linkedin_url: { type: "VARCHAR(255)" },
+    instagram_url: { type: "TEXT" },
+    linkedin_url: { type: "TEXT" },
     is_active: { type: "BOOLEAN", default: true },
     created_at: {
       type: "TIMESTAMP",

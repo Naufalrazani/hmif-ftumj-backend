@@ -17,24 +17,18 @@ export const getAllInfo = async (req, res) => {
 // @desc    Tambah info baru
 // @route   POST /api/informationall
 export const createInfo = async (req, res) => {
-  const {
-    title,
-    type,
-    deadline,
-    thumbnail_url,
-    link_registration,
-    description,
-  } = req.body;
+  const { title, type, deadline, image_url, link_registration, description } =
+    req.body;
   try {
     const query = `
-      INSERT INTO informationall (title, type, deadline, thumbnail_url, link_registration, description)
+      INSERT INTO informationall (title, type, deadline, image_url, link_registration, description)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *`;
     const values = [
       title,
       type,
       deadline,
-      thumbnail_url,
+      image_url,
       link_registration,
       description,
     ];
@@ -65,14 +59,8 @@ export const createInfo = async (req, res) => {
 // @route   PUT /api/informationall/:id
 export const updateInfo = async (req, res) => {
   const { id } = req.params;
-  const {
-    title,
-    type,
-    deadline,
-    thumbnail_url,
-    link_registration,
-    description,
-  } = req.body;
+  const { title, type, deadline, image_url, link_registration, description } =
+    req.body;
   try {
     const query = `
       UPDATE informationall 
@@ -80,7 +68,7 @@ export const updateInfo = async (req, res) => {
         title = COALESCE($1, title), 
         type = COALESCE($2, type), 
         deadline = COALESCE($3, deadline), 
-        thumbnail_url = COALESCE($4, thumbnail_url), 
+        image_url = COALESCE($4, image_url), 
         link_registration = COALESCE($5, link_registration), 
         description = COALESCE($6, description)
       WHERE id = $7 RETURNING *`;
@@ -89,7 +77,7 @@ export const updateInfo = async (req, res) => {
       title,
       type,
       deadline,
-      thumbnail_url,
+      image_url,
       link_registration,
       description,
       id,

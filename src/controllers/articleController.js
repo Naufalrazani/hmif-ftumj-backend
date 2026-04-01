@@ -23,15 +23,15 @@ export const getAllArticles = async (req, res) => {
 // @desc    Tambah artikel baru
 // @route   POST /api/articles
 export const createArticle = async (req, res) => {
-  const { title, content, category, thumbnail_url } = req.body;
+  const { title, content, category, image_url } = req.body;
   const slug = createSlug(title);
 
   try {
     const query = `
-      INSERT INTO articles (title, slug, content, category, thumbnail_url)
+      INSERT INTO articles (title, slug, content, category, image_url)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *`;
-    const values = [title, slug, content, category, thumbnail_url];
+    const values = [title, slug, content, category, image_url];
 
     const result = await pool.query(query, values);
     res.status(201).json({ status: "success", data: result.rows[0] });
@@ -71,7 +71,7 @@ export const deleteArticle = async (req, res) => {
 // @route   PUT /api/articles/:id
 export const updateArticle = async (req, res) => {
   const { id } = req.params;
-  const { title, content, category, thumbnail_url, is_published } = req.body;
+  const { title, content, category, image_url, is_published } = req.body;
 
   let slug;
   if (title) {
@@ -86,7 +86,7 @@ export const updateArticle = async (req, res) => {
         slug = COALESCE($2, slug), 
         content = COALESCE($3, content), 
         category = COALESCE($4, category), 
-        thumbnail_url = COALESCE($5, thumbnail_url),
+        image_url = COALESCE($5, image_url),
         is_published = COALESCE($6, is_published)
       WHERE id = $7 RETURNING *`;
 
@@ -95,7 +95,7 @@ export const updateArticle = async (req, res) => {
       slug,
       content,
       category,
-      thumbnail_url,
+      image_url,
       is_published,
       id,
     ];

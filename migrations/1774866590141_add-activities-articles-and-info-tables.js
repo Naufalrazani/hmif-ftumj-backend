@@ -39,7 +39,7 @@ export const up = (pgm) => {
     slug: { type: "VARCHAR(255)", notNull: true, unique: true },
     content: { type: "TEXT", notNull: true },
     category: { type: "VARCHAR(50)", notNull: true },
-    thumbnail_url: { type: "TEXT" },
+    image_url: { type: "TEXT" },
     is_published: { type: "BOOLEAN", default: false },
     created_at: {
       type: "TIMESTAMP",
@@ -57,7 +57,7 @@ export const up = (pgm) => {
     title: { type: "VARCHAR(255)", notNull: true },
     type: { type: "VARCHAR(50)", notNull: true },
     deadline: { type: "TIMESTAMP" },
-    thumbnail_url: { type: "TEXT" },
+    image_url: { type: "TEXT" },
     link_registration: { type: "TEXT" },
     description: { type: "TEXT" },
     created_at: {

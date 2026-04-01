@@ -21,26 +21,30 @@ export const getAllMembers = async (req, res) => {
 export const createMember = async (req, res) => {
   const {
     name,
+    npm,
     role,
     department_id,
     period,
     image_url,
     instagram_url,
     linkedin_url,
+    is_active,
   } = req.body;
   try {
     const query = `
-      INSERT INTO members (name, role, department_id, period, image_url, instagram_url, linkedin_url)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO members (name, npm, role, department_id, period, image_url, instagram_url, linkedin_url, is_active)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *`;
     const values = [
       name,
+      npm,
       role,
       department_id,
       period,
       image_url,
       instagram_url,
       linkedin_url,
+      is_active,
     ];
 
     const result = await pool.query(query, values);
@@ -55,6 +59,7 @@ export const updateMember = async (req, res) => {
   const { id } = req.params;
   const {
     name,
+    npm,
     role,
     department_id,
     period,
@@ -63,17 +68,24 @@ export const updateMember = async (req, res) => {
     linkedin_url,
     is_active,
   } = req.body;
+
   try {
     const query = `
       UPDATE members SET 
-        name = COALESCE($1, name), role = COALESCE($2, role), 
-        department_id = COALESCE($3, department_id), period = COALESCE($4, period), 
-        image_url = COALESCE($5, image_url), instagram_url = COALESCE($6, instagram_url), 
-        linkedin_url = COALESCE($7, linkedin_url), is_active = COALESCE($8, is_active)
-      WHERE id = $9 RETURNING *`;
+        name = COALESCE($1, name), 
+        npm = COALESCE($2, npm),           
+        role = COALESCE($3, role), 
+        department_id = COALESCE($4, department_id), 
+        period = COALESCE($5, period), 
+        image_url = COALESCE($6, image_url), 
+        instagram_url = COALESCE($7, instagram_url), 
+        linkedin_url = COALESCE($8, linkedin_url), 
+        is_active = COALESCE($9, is_active)
+      WHERE id = $10 RETURNING *`;
 
     const result = await pool.query(query, [
       name,
+      npm,
       role,
       department_id,
       period,
@@ -83,10 +95,12 @@ export const updateMember = async (req, res) => {
       is_active,
       id,
     ]);
+
     if (result.rows.length === 0)
       return res
         .status(404)
         .json({ status: "fail", message: "Anggota tidak ditemukan" });
+
     res.status(200).json({ status: "success", data: result.rows[0] });
   } catch (err) {
     res.status(500).json({ status: "error", message: err.message });
